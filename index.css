@@ -1,0 +1,56 @@
+body {
+    font-family: "Prompt", sans-serif;
+    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    color: white;
+    text-shadow: 0 0 5px #333;
+}
+
+#chatBox {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 90%;
+    max-width: 500px;
+    height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.comment {
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #f3f3f3;
+}
+
+input,
+button {
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+#name,
+#message {
+    width: 40%;
+}
+
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #45a049;
+}
