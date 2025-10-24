@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สำหรับออกความเห็นอาจาร์ย</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <h2>💬 ออกความเห็นได้เลยครับพี่ชาย</h2>
+
+
+    <div id="chatBox">กำลังโหลดข้อความ...</div>
+
+
+    <div>
+        <input type="text" id="name" placeholder="ชื่ออะไรเอ่ย..." />
+        <input type="text" id="message" placeholder="คิดเห็นยังไงบ้าง..." />
+        <button onclick="sendMessage()">ส่ง</button>
+    </div>
+
+    <script>
+        const BIN_ID = "68fa594fd0ea881f40b609a6";
+        const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+
+        async function loadMessages() {
+            const box = document.getElementById("chatBox");
+            box.innerHTML = "กำลังโหลดข้อความ...";
+            try {
+                const res = await fetch(API_URL + "/latest");
+                const data = await res.json();
+                box.innerHTML = "";
+                (data.record || []).forEach(c => {
+                    const p = document.createElement("div");
+                    p.className = "comment";
+                    p.innerHTML = `<strong>${c.name}</strong>: ${c.text}`;
+                    box.appendChild(p);
+                });
+            } catch (e) {
+                box.innerHTML = "ไม่สามารถโหลดข้อความได้";
+            }
+        }
+
+
+        async function sendMessage() {
+            const name = document.getElementById("name").value.trim();
+            const text = document.getElementById("message").value.trim();
+            if (!name || !text) return alert("กรอกชื่อและข้อความก่อนสิพี่ชาย!");
+
+            try {
+                const res = await fetch(API_URL + "/latest");
+                const data = await res.json();
+                const comments = data.record || [];
+                comments.push({
+                    name,
+                    text
+                });
+
+                await fetch(API_URL, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(comments)
+                });
+
+                document.getElementById("message").value = "";
+                loadMessages();
+            } catch (e) {
+                alert("ส่งข้อความไม่สำเร็จ 😢");
+            }
+        }
+
+        loadMessages();
+    </script>
+
+</body>
+
+</html>
